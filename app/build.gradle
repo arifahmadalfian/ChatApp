@@ -6,7 +6,6 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
-
 android {
     compileSdk 32
 
