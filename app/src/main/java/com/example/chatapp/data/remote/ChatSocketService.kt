@@ -21,7 +21,7 @@ class ChatSocketService(
     override suspend fun initSession(username: String): Resources<Unit> {
         return try {
             socket = client.webSocketSession {
-                url(IChatSocketService.Endpoints.ChatSocket.url)
+                url("${IChatSocketService.Endpoints.ChatSocket.url}?username=$username")
             }
             if (socket?.isActive == true) {
                 Resources.Success(Unit)
@@ -49,10 +49,10 @@ class ChatSocketService(
                     val json = (it as? Frame.Text)?.readText() ?: ""
                     val messageDto = Json.decodeFromString<MessageDto>(json)
                     messageDto.toMessage()
-                } ?: flow {  }
+                } ?: flow { }
         } catch (e: Exception) {
             e.printStackTrace()
-            flow {  }
+            flow { }
         }
     }
 
