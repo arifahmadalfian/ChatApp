@@ -6,7 +6,7 @@ interface IMessageService {
     suspend fun getAllMessage(): List<Message>
 
     companion object {
-        const val BASE_URL = "http://192.168.224.126:8080"
+        const val BASE_URL = "http://192.168.100.6:8082"
     }
 
     sealed class Endpoints(val url: String) {
