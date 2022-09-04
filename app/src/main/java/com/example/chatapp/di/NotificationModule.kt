@@ -21,6 +21,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
@@ -29,6 +30,7 @@ object NotificationModule {
 
     @Singleton
     @Provides
+    @MainNotificationCompactBuilder
     fun provideNotificationBuilder(
         @ApplicationContext context: Context
     ): NotificationCompat.Builder {
@@ -78,6 +80,19 @@ object NotificationModule {
 
     @Singleton
     @Provides
+    @SecondNotificationCompactBuilder
+    fun provideSecondNotificationBuilder(
+        @ApplicationContext context: Context
+    ): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context, "Second Channel ID")
+            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            .setPriority(NotificationCompat.PRIORITY_LOW)
+            .setVisibility(VISIBILITY_PRIVATE)
+            .setOngoing(true)
+    }
+
+    @Singleton
+    @Provides
     fun provideNotificationManager(
         @ApplicationContext context: Context
     ): NotificationManagerCompat {
@@ -88,8 +103,26 @@ object NotificationModule {
                 "Main Channel",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
+            val channelSecond = NotificationChannel(
+                "Second Channel ID",
+                "Second Channel",
+                NotificationManager.IMPORTANCE_LOW
+            )
             notificationManagerCompat.createNotificationChannel(channel)
+            notificationManagerCompat.createNotificationChannel(channelSecond)
         }
         return notificationManagerCompat
     }
 }
+
+/**
+ * suapaya tidak ambigu Notification.Builder
+ */
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MainNotificationCompactBuilder
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class SecondNotificationCompactBuilder
