@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.chatapp.presentation.chat.ChatScreen
+import com.example.chatapp.presentation.notification.NotificationScreen
 import com.example.chatapp.presentation.username.UsernameScreen
 import com.example.chatapp.ui.theme.ChatAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = "username_screen"
+                startDestination = "notification_screen"
             ) {
                 composable("username_screen") {
                     UsernameScreen(onNavigate = navController::navigate)
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val username = it.arguments?.getString("username")
                     ChatScreen(username = username)
+                }
+                composable("notification_screen") {
+                    NotificationScreen()
                 }
             }
         }
