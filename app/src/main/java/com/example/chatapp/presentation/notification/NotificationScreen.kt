@@ -37,6 +37,10 @@ fun NotificationScreen(
             Text(text = "Progress Notification")
         }
         Spacer(modifier = Modifier.height(12.dp))
+        Button(onClick = viewModel::replyNotification) {
+            Text(text = "Reply Notification")
+        }
+        Spacer(modifier = Modifier.height(12.dp))
         Button(
             onClick = {
                 navController.navigate(

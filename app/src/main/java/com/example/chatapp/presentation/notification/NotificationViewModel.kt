@@ -1,16 +1,12 @@
 package com.example.chatapp.presentation.notification
 
-import android.app.Application
-import android.app.PendingIntent
-import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatapp.di.MainNotificationCompactBuilder
+import com.example.chatapp.di.FirstNotificationCompactBuilder
 import com.example.chatapp.di.SecondNotificationCompactBuilder
-import com.example.chatapp.receiver.NotificationReceiver
+import com.example.chatapp.di.ThirdNotificationCompactBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -18,15 +14,21 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
-    @MainNotificationCompactBuilder
+    @FirstNotificationCompactBuilder
     private val notificationBuilder: NotificationCompat.Builder,
     @SecondNotificationCompactBuilder
     private val notificationBuilder2: NotificationCompat.Builder,
+    @ThirdNotificationCompactBuilder
+    private val notificationBuilder3: NotificationCompat.Builder,
     private val notificationManager: NotificationManagerCompat
 ): ViewModel() {
 
     fun showSimpleNotification() {
         notificationManager.notify(1, notificationBuilder.build())
+    }
+
+    fun replyNotification() {
+        notificationManager.notify(4, notificationBuilder3.build())
     }
 
     fun updateSimpleNotification() {
