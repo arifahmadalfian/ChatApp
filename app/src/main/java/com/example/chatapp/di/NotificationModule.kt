@@ -9,7 +9,12 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
+import com.example.chatapp.MainActivity
 import com.example.chatapp.R
+import com.example.chatapp.navigation.CHAT_ARGS
+import com.example.chatapp.navigation.CHAT_URI
 import com.example.chatapp.receiver.NotificationReceiver
 import dagger.Module
 import dagger.Provides
@@ -42,6 +47,19 @@ object NotificationModule {
             flag
         )
 
+        //click notification
+        val clickIntent = Intent(
+            Intent.ACTION_VIEW,
+            "$CHAT_URI/$CHAT_ARGS=From Notification".toUri(),
+            context,
+            MainActivity::class.java
+        )
+
+        val clickPendingIntent: PendingIntent? = TaskStackBuilder.create(context).run {
+            addNextIntentWithParentStack(clickIntent)
+            getPendingIntent(1, flag)
+        }
+
         return NotificationCompat.Builder(context, "Main Channel ID")
             .setContentTitle("Welcome")
             .setContentText("Arief Ahmad Alfian")
@@ -54,7 +72,8 @@ object NotificationModule {
                     .setContentText("unlock to see the message.")
                     .build()
             )
-            .addAction(0, "Action", pendingIntent) //aksi click di notif
+            .addAction(0, "Action", pendingIntent) //aksi click button di notif
+            .setContentIntent(clickPendingIntent) //aksi click notif deep link
     }
 
     @Singleton

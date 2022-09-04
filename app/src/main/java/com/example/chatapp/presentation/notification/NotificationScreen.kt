@@ -8,9 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import com.example.chatapp.navigation.Screen
 
 @Composable
-fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
+fun NotificationScreen(
+    navController: NavHostController,
+    viewModel: NotificationViewModel = hiltViewModel()
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -28,8 +33,16 @@ fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
             Text(text = "Cancel Notification")
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Button(onClick = viewModel::actionSimpleNotification) {
-            Text(text = "Action Notification")
+        Button(
+            onClick = {
+                navController.navigate(
+                    Screen.Details.passArgument(
+                        message = "From Main Screen"
+                    )
+                )
+            }
+        ) {
+            Text(text = "DETAIL SCREEN")
         }
     }
 }

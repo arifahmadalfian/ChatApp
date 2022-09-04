@@ -35,12 +35,12 @@ class NotificationViewModel @Inject constructor(
         notificationManager.cancel(1)
     }
 
-    fun actionSimpleNotification() {
+    fun detailSimpleNotification() {
         notificationManager.notify(
             3,
             notificationBuilder
                 .setContentTitle("Notification")
-                .setContentText("Notification With Action")
+                .setContentText("Notification go to detail")
                 .build()
         )
     }
