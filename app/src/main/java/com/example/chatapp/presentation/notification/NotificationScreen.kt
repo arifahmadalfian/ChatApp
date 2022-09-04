@@ -28,5 +28,8 @@ fun NotificationScreen(viewModel: NotificationViewModel = hiltViewModel()) {
             Text(text = "Cancel Notification")
         }
         Spacer(modifier = Modifier.height(12.dp))
+        Button(onClick = viewModel::actionSimpleNotification) {
+            Text(text = "Action Notification")
+        }
     }
 }

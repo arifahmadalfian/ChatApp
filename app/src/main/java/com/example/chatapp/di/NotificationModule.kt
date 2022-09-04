@@ -2,12 +2,15 @@ package com.example.chatapp.di
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationCompat.VISIBILITY_PRIVATE
 import androidx.core.app.NotificationManagerCompat
 import com.example.chatapp.R
+import com.example.chatapp.receiver.NotificationReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,6 +27,21 @@ object NotificationModule {
     fun provideNotificationBuilder(
         @ApplicationContext context: Context
     ): NotificationCompat.Builder {
+
+        val intent = Intent(context, NotificationReceiver::class.java).apply {
+            putExtra("message", "Action Clicked")
+        }
+
+        val flag =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            flag
+        )
+
         return NotificationCompat.Builder(context, "Main Channel ID")
             .setContentTitle("Welcome")
             .setContentText("Arief Ahmad Alfian")
@@ -36,6 +54,7 @@ object NotificationModule {
                     .setContentText("unlock to see the message.")
                     .build()
             )
+            .addAction(0, "Action", pendingIntent) //aksi click di notif
     }
 
     @Singleton
